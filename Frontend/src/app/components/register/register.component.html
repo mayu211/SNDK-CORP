@@ -1,0 +1,100 @@
+<div class="card container">
+ 
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate enctype="multipart/form-data">
+    <input type="file" id="fileInput" accept="image/*" (change)="handleFileInput($event)" hidden>
+    <img
+      id="profile-img"
+      [src]="selectedImage"
+      class="profile-img-card" 
+      (click)="selectImage()"
+    />
+    <div class="row">
+      <div class="col-md-6">
+        <label for="firstname">First Name:</label>
+        <input type="text" formControlName="firstname" class="form-control" />
+        <div
+          *ngIf="
+            registerForm.get('firstname')?.touched &&
+            registerForm.get('firstname')?.errors?.['required']
+          "
+        >
+          <span style="color: red">First Name is required</span>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="lastname">Last Name:</label>
+        <input type="text" formControlName="lastname" class="form-control" />
+        <div
+          *ngIf="
+            registerForm.get('lastname')?.touched &&
+            registerForm.get('lastname')?.errors?.['required']
+          "
+        >
+          <span style="color: red"> Last name is required</span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="email">Email:</label>
+        <input type="email" formControlName="email" class="form-control" />
+        <div
+          *ngIf="
+            registerForm.get('email')?.touched && registerForm.get('email')?.errors?.['required']
+          "
+        >
+          <span style="color: red">Email is required</span>
+        </div>
+        <div
+          *ngIf="
+            registerForm.get('email')?.touched && registerForm.get('email')?.errors?.['email']
+          "
+        >
+          <span style="color: red"> Please enter a valid email</span>
+        </div>
+      </div>
+      <div class="col-md-6" *ngIf="!this.userData">
+        <label for="password">Password:</label>
+        <input
+          type="password"
+          formControlName="password"
+          class="form-control"
+        />
+        <div
+          *ngIf="
+            registerForm.get('password')?.touched &&
+            registerForm.get('password')?.errors?.['minlength']
+          "
+        >
+          <span style="color: red">
+            Password must be at least 6 characters long</span
+          >
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="statusSelect">Status:</label>
+        <select class="form-control" formControlName="status" >
+          <option value="true">Active</option>
+          <option value="false">Inactive</option>
+        </select>
+      </div>
+    </div>
+   
+    <br />
+    <div>
+      <div class="row">
+        <button
+          type="submit"
+          class="btn btn-primary btn-block"
+          [disabled]="registerForm.invalid"
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <div class="alert alert-success" *ngIf="isSuccessful">
+    Your registration is successful!
+  </div>
+</div>
